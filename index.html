@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#1a1a2e">
+    <meta name="description" content="Endless Runner - A fun tap-to-jump game for mobile and desktop">
+    <title>Endless Runner</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="container">
+        <canvas id="gameCanvas"></canvas>
+        
+        <!-- Start Screen -->
+        <div id="startScreen" class="screen active">
+            <div class="screen-content">
+                <h1>Endless Runner</h1>
+                <p class="subtitle">Tap anywhere to start</p>
+                <div class="best-score">
+                    <p>Best Score: <span id="bestScoreStart">0</span></p>
+                </div>
+                <button id="startBtn" class="btn">TAP TO START</button>
+            </div>
+        </div>
+        
+        <!-- Game Over Screen -->
+        <div id="gameOverScreen" class="screen">
+            <div class="screen-content">
+                <h1>Game Over</h1>
+                <div class="score-display">
+                    <p>Score: <span id="finalScore">0</span></p>
+                    <p>Best: <span id="finalBest">0</span></p>
+                </div>
+                <button id="restartBtn" class="btn">TAP TO RESTART</button>
+                <button id="shareBtn" class="btn btn-secondary">SHARE</button>
+            </div>
+        </div>
+        
+        <!-- HUD (shown during game) -->
+        <div id="hud" class="hud">
+            <div class="hud-left">
+                <div class="score">
+                    <span class="label">Score:</span>
+                    <span id="currentScore" class="value">0</span>
+                </div>
+            </div>
+            <div class="hud-right">
+                <div class="best">
+                    <span class="label">Best:</span>
+                    <span id="bestScore" class="value">0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
