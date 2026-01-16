@@ -70,16 +70,21 @@ const game = {
     
     resizeCanvas: function() {
         const dpr = window.devicePixelRatio || 1;
-        this.canvas.width = window.innerWidth * dpr;
-        this.canvas.height = window.innerHeight * dpr;
+        
+        // Use actual viewport dimensions, accounting for mobile UI
+        const width = window.innerWidth || document.documentElement.clientWidth;
+        const height = window.innerHeight || document.documentElement.clientHeight;
+        
+        this.canvas.width = width * dpr;
+        this.canvas.height = height * dpr;
         this.ctx.scale(dpr, dpr);
         
-        // Update ground position
-        this.groundY = window.innerHeight - 50;
+        // Update ground position (leave 50px margin from bottom)
+        this.groundY = Math.max(height - 50, height * 0.85);
         
         // Center player on first load
         if (this.gameState === GAME_STATES.START) {
-            this.player.x = window.innerWidth / 2 - this.player.width / 2;
+            this.player.x = width / 2 - this.player.width / 2;
             this.player.y = this.groundY - this.player.height;
         }
     },
