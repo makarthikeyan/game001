@@ -54,9 +54,18 @@ const game = {
         this.canvas = document.getElementById('gameCanvas');
         this.ctx = this.canvas.getContext('2d');
         
+        // Prevent scrolling and address bar issues
+        document.documentElement.style.overflow = 'hidden';
+        document.body.style.overflow = 'hidden';
+        
         // Set canvas size
         this.resizeCanvas();
+        
+        // Handle resize and orientation change
         window.addEventListener('resize', () => this.resizeCanvas());
+        window.addEventListener('orientationchange', () => {
+            setTimeout(() => this.resizeCanvas(), 100);
+        });
         
         // Touch/Mouse controls
         this.setupControls();
@@ -71,16 +80,33 @@ const game = {
     resizeCanvas: function() {
         const dpr = window.devicePixelRatio || 1;
         
-        // Use actual viewport dimensions, accounting for mobile UI
-        const width = window.innerWidth || document.documentElement.clientWidth;
-        const height = window.innerHeight || document.documentElement.clientHeight;
+        // Get dimensions accounting for all mobile scenarios
+        let width = window.innerWidth;
+        let height = window.innerHeight;
         
+        // Fallback for edge cases
+        if (!width || !height) {
+            width = document.documentElement.clientWidth;
+            height = document.documentElement.clientHeight;
+        }
+        
+        // Ensure minimum dimensions
+        width = Math.max(width, 300);
+        height = Math.max(height, 300);
+        
+        // Set canvas resolution
         this.canvas.width = width * dpr;
         this.canvas.height = height * dpr;
+        
+        // Set canvas display size
+        this.canvas.style.width = width + 'px';
+        this.canvas.style.height = height + 'px';
+        
+        // Scale context
         this.ctx.scale(dpr, dpr);
         
-        // Update ground position (leave 50px margin from bottom)
-        this.groundY = Math.max(height - 50, height * 0.85);
+        // Update ground position (80-85% of viewport from top)
+        this.groundY = height * 0.8;
         
         // Center player on first load
         if (this.gameState === GAME_STATES.START) {
